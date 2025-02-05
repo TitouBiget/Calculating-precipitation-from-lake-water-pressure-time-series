@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
-'''This code computes the precipitation over a lake during the cold seasons using Pritchard's method (DOI: 10.1175/JHM-D-20-0206.1) on the lake water pressure series. 
+'''This code computes the precipitation over a lake during the cold seasons using Pritchard's et al. method (DOI: 10.1175/JHM-D-20-0206.1) on the lake water pressure series. 
 The input data are the pressure series and a list of the dates of all the rainfall events that happened during the recording. The dates on the list were determined manually basing on the pressure series.
 The estimated precipitation is supposed here to be equal to the difference of water column before and after the event taking account of the drainage rate  of the lake.
 This drainage rate is supposed linear and is extrapolated here at the start and the end of each event with a least square fitting.'''
@@ -21,7 +21,6 @@ mpl.rcParams['figure.max_open_warning'] = 60
 plot_event = False
 
 #importing the dates of the events and the pressure series
-# path_golojang_b = r"golojang_b_raw.csv"
 path_golojang_b = r"golojang_b.csv"
 path_dates = r"dates_events.csv"
 
@@ -33,17 +32,13 @@ df['date'] = pd.to_datetime(df['date'])
 dates_events['date_start'] = pd.to_datetime(dates_events['date_start'])
 dates_events['date_end'] = pd.to_datetime(dates_events['date_end'])
 
-#df['date'] = df['date'] + pd.to_timedelta('2D')
-# df['millimeters'] = df['millimeters'].rolling(12).median() #####################à enlever si on utilise pas les données raw
-# plt.plot(df['date'], df['millimeters']) ###############à enlever si on utilise pas les données raw
-
 precip_data = [] #will be the list with all the computed precipitation, their dates and their standar errors
 standar_error = [] #list of the standard error of the events
 
 # dates_events = dates_events[:] #you can uncomment if you want to reduce the size of the number of events computed
 
 class precip():
-    '''we will used a set of fuction in aim to compute the precipitation, the drainage regression and their standard error'''
+    '''we will used a set of functions in aim to compute the precipitation, the drainage regression and their standard error'''
     def __init__(self, event_id):
         self.event_id_local = event_id
     
@@ -224,5 +219,3 @@ print(f"Average duration of an event: {dates_events['duration'].mean()} days")
 for year in [2019,2020]:
     print(f'The total precipitation for the period {year}-12-01 to {year+1}-05-31 is {precipitation["golojang_mm"][mask_winter_pre_monsoon(precipitation, year)].values.sum():.0f} \pm {precipitation["standard_error"][mask_winter_pre_monsoon(precipitation, year)].values.sum():.0f}mm')
 print(f'The total precipitation for the period 2021-12-01 to 2022-04-14 is {precipitation["golojang_mm"][mask_winter_pre_monsoon(precipitation, 2021)].values.sum():.0f} \pm {precipitation["standard_error"][mask_winter_pre_monsoon(precipitation, 2021)].values.sum():.0f} mm')
-
-# print(precipitation)

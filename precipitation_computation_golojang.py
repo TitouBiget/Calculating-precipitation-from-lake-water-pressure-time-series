@@ -21,7 +21,7 @@ mpl.rcParams['figure.max_open_warning'] = 60
 plot_event = False
 
 #importing the dates of the events and the pressure series
-path_golojang_b = r"golojang_b.csv"
+path_golojang_b = r"golojang_pressure_time_series.csv"
 path_dates = r"dates_events.csv"
 
 df = pd.read_csv(path_golojang_b) 
